@@ -79,9 +79,9 @@ beerDetailDiv.addEventListener('click', (e) => {
             .then(resp => resp.json())
             .then(updatedBeerObj => {
                 alert(`${updatedBeerObj.name}'s beer description was updated!`)
-                renderBeer(updatedBeerObj)
+                displayBeerDetails(updatedBeerObj)
             })
-    }    
+    }
 })
 
 
