@@ -51,13 +51,39 @@ function displayBeerDetails(beerObj) {
     const textarea = document.createElement('textarea')
     textarea.innerText = beerObj.description 
 
-    const button = document.createElement('buttton')
+    const button = document.createElement('button')
     button.id = 'edit-beer'
     button.className = 'btn btn-info'
     button.innerText = 'Save'
+    button.dataset.id = beerObj.id
 
     beerDetailDiv.append(h1, img, h3, textarea, button)
 }
+
+beerDetailDiv.addEventListener('click', (e) => {
+    if (e.target.matches("button")) {
+        const bodyObj = {
+            description: e.target.previousElementSibling.value
+        }
+
+        const reqObj = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            },
+            body: JSON.stringify(bodyObj)
+        }
+
+        fetch(beersURL+e.target.dataset.id, reqObj)
+            .then(resp => resp.json())
+            .then(updatedBeerObj => {
+                alert(`${updatedBeerObj.name}'s beer description was updated!`)
+                renderBeer(updatedBeerObj)
+            })
+    }    
+})
+
 
 
 main()
